@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Report;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ReportController extends Controller
 {
@@ -28,7 +29,17 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $report = Report::create([
+            "date" => $request->date,
+            "address" => $request->address,
+            "municipality" => $request->municipality,
+            "service_type" => $request->service_type,
+            "fire_clasification" => $request->fire_clasification,
+            "rescue_type" => $request->rescue_type,
+            "emergency_type" => $request->emergency_type,
+        ]);
+        dd($report);
+        return Inertia::render('Welcome');
     }
 
     /**
