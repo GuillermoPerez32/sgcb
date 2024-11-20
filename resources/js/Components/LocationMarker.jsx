@@ -11,11 +11,7 @@ const LocationMarker = ({ onLocationChange }) => {
 
     useMapEvent("click", onClick);
 
-    return position === null ? null : (
-        <Marker position={position}>
-            <Popup>You are here</Popup>
-        </Marker>
-    );
+    return position === null ? null : <Marker position={position} />;
 };
 
 export default LocationMarker;
