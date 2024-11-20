@@ -37,9 +37,9 @@ class ReportController extends Controller
             "fire_clasification" => $request->fire_clasification,
             "rescue_type" => $request->rescue_type,
             "emergency_type" => $request->emergency_type,
+            "lat" => $request->lat,
+            "lng" => $request->lng,
         ]);
-        dd($report);
-        return Inertia::render('Welcome');
     }
 
     /**

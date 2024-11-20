@@ -1,19 +1,24 @@
 import { router } from "@inertiajs/react";
-import { Button, Input } from "@nextui-org/react";
 import { useState } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { Circle, MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
-export default function Welcome() {
-    const position = [22.4934392, -80.090234];
+import "leaflet/dist/leaflet.css";
+
+import LocationMarker from "@/Components/LocationMarker";
+
+export default function Welcome({ reports }) {
+    const [position, setPosition] = useState([22.4934392, -80.090234]);
 
     const [values, setValues] = useState({
         date: "",
         address: "",
         municipality: "",
-        service_type: "",
-        fire_clasification: "",
-        rescue_type: "",
-        emergency_type: "",
+        service_type: "Incendio",
+        fire_clasification: "N/A",
+        rescue_type: "N/A",
+        emergency_type: "N/A",
+        lat: "",
+        lng: "",
     });
 
     function handleChange(e) {
@@ -34,44 +39,158 @@ export default function Welcome() {
         <div className="flex h-screen">
             <form
                 onSubmit={handleSubmit}
-                className="p-4 border-r border-r-slate-200 flex flex-col gap-4"
+                className="p-4 border-r border-r-slate-200 flex flex-col gap-1"
             >
-                <Input onChange={handleChange} id="date" type="text" />
+                <div className="self-center">
+                    <img src="./logo.png" alt="logo" height={80} width={80} />
+                </div>
 
-                <Input onChange={handleChange} id="address" type="text" />
+                <label htmlFor="date">Fecha</label>
+                <input
+                    onChange={handleChange}
+                    id="date"
+                    type="date"
+                    label="Fecha"
+                    className="rounded-md"
+                    required
+                />
 
-                <Input onChange={handleChange} id="municipality" type="text" />
+                <label htmlFor="address">Dirección</label>
+                <input
+                    placeholder="Ej: Calle A #1 e/ B y C, Reparto"
+                    onChange={handleChange}
+                    id="address"
+                    type="text"
+                    className="rounded-md"
+                    required
+                />
 
-                <Input onChange={handleChange} id="service_type" type="text" />
+                <label htmlFor="municipality">Municipio</label>
+                <input
+                    placeholder="Las Tunas"
+                    onChange={handleChange}
+                    id="municipality"
+                    type="text"
+                    className="rounded-md"
+                    required
+                />
 
-                <Input
+                <label htmlFor="service_type">Tipo de servicio</label>
+                <select
+                    onChange={handleChange}
+                    id="service_type"
+                    type="text"
+                    className="rounded-md"
+                    required
+                >
+                    <option value="Incendio">Incendio</option>
+                    <option value="Rescate">Rescate</option>
+                    <option value="Emergencia">Emergencia</option>
+                </select>
+
+                <label htmlFor="service_type">Clasificacion de incendio</label>
+                <select
                     onChange={handleChange}
                     id="fire_clasification"
                     type="text"
-                />
+                    className="rounded-md"
+                    required
+                >
+                    <option value="N/A">N/A</option>
+                    <option value="Q-101">Q-101</option>
+                    <option value="Q-102">Q-102</option>
+                    <option value="Q-103">Q-103</option>
+                    <option value="Q-104">Q-104</option>
+                    <option value="Q-105">Q-105</option>
+                </select>
 
-                <Input onChange={handleChange} id="rescue_type" type="text" />
+                <label htmlFor="service_type">Tipo de rescate</label>
+                <select
+                    onChange={handleChange}
+                    id="rescue_type"
+                    type="text"
+                    className="rounded-md"
+                    required
+                >
+                    <option value="N/A">N/A</option>
+                    <option value="Vehicular">Vehicular</option>
+                    <option value="Descarcelación">Descarcelación</option>
+                    <option value="Derrumbe">Derrumbe</option>
+                    <option value="Escape de sustancias">
+                        Escape de sustancias
+                    </option>
+                </select>
 
-                <Input
+                <label htmlFor="service_type">Tipo de emergencia</label>
+                <select
                     onChange={handleChange}
                     id="emergency_type"
                     type="text"
+                    className="rounded-md"
+                    required
+                >
+                    <option value="N/A">N/A</option>
+                    <option value="Derrumbe">Derrumbe</option>
+                    <option value="Cortocircuito">Cortocircuito</option>
+                    <option value="Escape de sustancias">
+                        Escape de sustancias
+                    </option>
+                    <option value="Fuga de gases">Fuga de gases</option>
+                </select>
+
+                <label htmlFor="service_type">Latitud</label>
+                <input
+                    placeholder="Marque en el mapa"
+                    onChange={handleChange}
+                    id="lat"
+                    disabled
+                    value={position?.lat || ""}
+                    type="text"
+                    className="rounded-md"
+                    required
                 />
 
-                <Button type="submit">Generar</Button>
-            </form>
-            <div className="p-4 overflow-hidden size-full">
-                <MapContainer
-                    center={position}
-                    zoom={11}
-                    scrollWheelZoom={false}
+                <label htmlFor="service_type">Longitud</label>
+                <input
+                    placeholder="Marque en el mapa"
+                    onChange={handleChange}
+                    id="lng"
+                    disabled
+                    value={position?.lng || ""}
+                    type="text"
+                    className="rounded-md"
+                    required
+                />
+
+                <button
+                    type="submit"
+                    className="mt-4 py-2 px-4 bg-yellow-200 hover:bg-yellow-300 rounded-md transition-colors"
                 >
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                </MapContainer>
-            </div>
+                    Generar
+                </button>
+            </form>
+            <MapContainer
+                center={position}
+                zoom={9}
+                scrollWheelZoom={false}
+                className="size-full"
+                attributionControl={false}
+            >
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <LocationMarker
+                    onLocationChange={(latLng) => {
+                        setPosition(latLng);
+                        setValues((state) => ({
+                            ...state,
+                            lat: latLng.lat,
+                            lng: latLng.lng,
+                        }));
+                    }}
+                />
+                {reports.map((report) => (
+                    <Circle center={[report.lat, report.lng]} radius={500} />
+                ))}
+            </MapContainer>
         </div>
     );
 }

@@ -16,6 +16,8 @@ return new class extends Migration
 
             $table->string('date');
             $table->string('address');
+            $table->string('lat');
+            $table->string('lng');
             $table->string('municipality');
             $table->string('service_type');
 

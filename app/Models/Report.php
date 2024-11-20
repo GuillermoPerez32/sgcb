@@ -13,6 +13,8 @@ class Report extends Model
         'service_type',
         'fire_clasification',
         'rescue_type',
-        'emergency_type'
+        'emergency_type',
+        'lat',
+        'lng'
     ];
 }
