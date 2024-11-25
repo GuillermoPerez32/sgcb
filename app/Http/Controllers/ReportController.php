@@ -31,7 +31,7 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        $report = Report::create([
+        Report::create([
             "date" => $request->date,
             "address" => $request->address,
             "municipality" => $request->municipality,
@@ -73,6 +73,6 @@ class ReportController extends Controller
      */
     public function destroy(Report $report)
     {
-        //
+        $report->delete();
     }
 }

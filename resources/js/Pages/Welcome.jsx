@@ -92,7 +92,7 @@ export default function Welcome({ reports }) {
 
                     <label htmlFor="municipality">Municipio</label>
                     <input
-                        placeholder="Santa Clara    "
+                        placeholder="Santa Clara"
                         onChange={handleChange}
                         id="municipality"
                         type="text"
@@ -221,12 +221,24 @@ export default function Welcome({ reports }) {
                             color="#B84038"
                             key={report.id}
                         >
-                            <Tooltip>
-                                <p className="text-lg font-semibold">
-                                    {report.service_type}
-                                </p>
-                                <p className="text-sm">{report.address}</p>
-                            </Tooltip>
+                            <Popup>
+                                <div className="flex flex-col">
+                                    <p className="text-lg font-semibold">
+                                        {report.service_type}
+                                    </p>
+                                    <p className="text-sm">{report.address}</p>
+                                    <button
+                                        className="mt-4 py-2 px-4 bg-red-200 hover:bg-red-300 rounded-md transition-colors self-center"
+                                        onClick={() =>
+                                            router.delete(
+                                                `/reports/${report.id}`
+                                            )
+                                        }
+                                    >
+                                        Borrar
+                                    </button>
+                                </div>
+                            </Popup>
                         </Circle>
                     ))}
                     <MapEvents />
